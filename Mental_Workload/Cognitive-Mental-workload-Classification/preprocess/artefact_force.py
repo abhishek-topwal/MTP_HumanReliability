@@ -1,5 +1,6 @@
 import pywt
 import concurrent.futures
+import preprocess
 import matplotlib.pyplot as plt
 from mne.io import read_raw_edf
 from preprocess.artefact_1_AMI import *
@@ -9,8 +10,8 @@ from preprocess.artefact_4_5_PSD import *
 from preprocess.artefact_6_Projection_STD import *
 from preprocess.artefact_7_Topographic_distribution import *
 from preprocess.artefact_8_Amplitude_thresholding import *
-from preprocess.artefact_Spike_zone_thresholding import *
-from preprocess.artefact_PSD import *
+# from preprocess.artefact_Spike_zone_thresholding import *
+# from preprocess.artefact_PSD import *
 from sklearn.decomposition import FastICA
 
 """ This implementation is based on FORCe: Fully Online and Automated Artifact
@@ -143,11 +144,19 @@ def FORCe(info, original_data):
 
     clean_A2 = (ica.inverse_transform(S)).T
 
-    """ 5) Spike Zone Thresholding """
-    newD1 = Thresholding(D1, DC_checkVal, DC_adjustVal)
-    newA2 = Thresholding(clean_A2, AC_checkVal, AC_adjustVal)
-    newD2 = Thresholding(D2, DC_checkVal, DC_adjustVal)
+    # """ 5) Spike Zone Thresholding """
+    # newD1 = Thresholding(D1, DC_checkVal, DC_adjustVal)
+    # newA2 = Thresholding(clean_A2, AC_checkVal, AC_adjustVal)
+    # newD2 = Thresholding(D2, DC_checkVal, DC_adjustVal)
 
+
+    ############## Changed Part #########################
+
+    newD1 = Amplitude_thresholding(D1, DC_checkVal, DC_adjustVal)
+    newA2 = Amplitude_thresholding(clean_A2, AC_checkVal, AC_adjustVal)
+    newD2 = Amplitude_thresholding(D2, DC_checkVal, DC_adjustVal)
+
+    #######################################################
     print("Number of channel markings: ", marked_ICs)
 
     pre_clea_data = []
@@ -184,7 +193,8 @@ class ArtefactFilter:
 
 if __name__ == '__main__':
 
-    file_name = 'F:/ÖNLAB/Databases/physionet.org/physiobank/database/eegmmidb/S001/S001R03.edf'
+    # file_name = 'F:/ÖNLAB/Databases/physionet.org/physiobank/database/eegmmidb/S001/S001R03.edf'
+    file_name = '/home/abhishek/Documents/MTP_HumanReliability/Mental_Workload/Cognitive-Mental-workload-Classification/Training-Data/S01/1-Back/'
     raw = read_raw_edf(file_name)
     raw_croped = raw.crop(tmax=60).load_data()
     raw_croped.resample(500)

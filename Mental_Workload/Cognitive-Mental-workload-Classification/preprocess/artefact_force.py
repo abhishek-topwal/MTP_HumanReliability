@@ -1,16 +1,28 @@
+import numpy as np
 import pywt
 import concurrent.futures
-import preprocess
 import matplotlib.pyplot as plt
+import mne
 from mne.io import read_raw_edf
-from preprocess.artefact_1_AMI import *
-from preprocess.artefact_2_Spiking import *
-from preprocess.artefact_3_Kurtosis import *
-from preprocess.artefact_4_5_PSD import *
-from preprocess.artefact_6_Projection_STD import *
-from preprocess.artefact_7_Topographic_distribution import *
-from preprocess.artefact_8_Amplitude_thresholding import *
-# from preprocess.artefact_Spike_zone_thresholding import *
+
+
+from artefact_1_AMI import *
+from artefact_2_Spiking import *
+from artefact_3_Kurtosis import *
+from artefact_4_5_PSD import *
+from artefact_6_Projection_STD import *
+from artefact_7_Topographic_distribution import *
+from artefact_8_Amplitude_thresholding import *
+from artefact_Spike_zone_thresholding import *
+
+# from preprocess.artefact_1_AMI import *
+# from preprocess.artefact_2_Spiking import *
+# from preprocess.artefact_3_Kurtosis import *
+# from preprocess.artefact_4_5_PSD import *
+# from preprocess.artefact_6_Projection_STD import *
+# from preprocess.artefact_7_Topographic_distribution import *
+# from preprocess.artefact_8_Amplitude_thresholding import *
+# # from preprocess.artefact_Spike_zone_thresholding import *
 # from preprocess.artefact_PSD import *
 from sklearn.decomposition import FastICA
 
@@ -78,7 +90,7 @@ def FORCe(info, original_data):
     # S: 2D array containing estimated source signals
     # A: 2D array containing mixing matrix, i.e. A.dot(S) = X
     """
-    ica = FastICA(n_components=len(info['chs']), algorithm='parallel')
+    ica = FastICA(n_components=len(info['chs']), algorithm='parallel',max_iter=500,tol=1e-2)
     S = ica.fit(A2.T).transform(A2.T)
     A = ica.mixing_
     assert np.allclose(A2.T, np.dot(S, A.T) + ica.mean_)
@@ -117,9 +129,8 @@ def FORCe(info, original_data):
 
     """ 4).3 Kurtosis """
     # toRemoveICs3 = Kurtosis(ICs_projections, marked_ICs)
-    # print('Marked to remove by Kurtosis : ', toRemoveICs3)
+    # print('Marked to remove by Kurtosis : ', toRemoveICs3)    # data = raw_croped.get_data(picks = chanls)
 
-    """ 4).4-5 Check PSDs + PSD of gamma frequency """
     # toRemoveICs4, toRemoveICs5 = PSD(ICs_projections, info['sfreq'], DISTANCE, THRESHOLD_GAMMA, marked_ICs)
     # print('Marked to remove by PSD & 1/F distribution: ', toRemoveICs4)
     # print('Marked to remove by Gamma frequency: ', toRemoveICs5)
@@ -144,19 +155,11 @@ def FORCe(info, original_data):
 
     clean_A2 = (ica.inverse_transform(S)).T
 
-    # """ 5) Spike Zone Thresholding """
-    # newD1 = Thresholding(D1, DC_checkVal, DC_adjustVal)
-    # newA2 = Thresholding(clean_A2, AC_checkVal, AC_adjustVal)
-    # newD2 = Thresholding(D2, DC_checkVal, DC_adjustVal)
+    """ 5) Spike Zone Thresholding """
+    newD1 = Thresholding(D1, DC_checkVal, DC_adjustVal)
+    newA2 = Thresholding(clean_A2, AC_checkVal, AC_adjustVal)
+    newD2 = Thresholding(D2, DC_checkVal, DC_adjustVal)
 
-
-    ############## Changed Part #########################
-
-    newD1 = Amplitude_thresholding(D1, DC_checkVal, DC_adjustVal)
-    newA2 = Amplitude_thresholding(clean_A2, AC_checkVal, AC_adjustVal)
-    newD2 = Amplitude_thresholding(D2, DC_checkVal, DC_adjustVal)
-
-    #######################################################
     print("Number of channel markings: ", marked_ICs)
 
     pre_clea_data = []
@@ -194,11 +197,21 @@ class ArtefactFilter:
 if __name__ == '__main__':
 
     # file_name = 'F:/ÖNLAB/Databases/physionet.org/physiobank/database/eegmmidb/S001/S001R03.edf'
-    file_name = '/home/abhishek/Documents/MTP_HumanReliability/Mental_Workload/Cognitive-Mental-workload-Classification/Training-Data/S01/1-Back/'
-    raw = read_raw_edf(file_name)
+    file_name = '/home/abhishek/Documents/MTP_HumanReliability/Mental_Workload/Cognitive-Mental-workload-Classification/Training-Data/S01/1-Back/S01-01-25.09.2016.10.21.24.edf'
+    original_raw = read_raw_edf(file_name)
+    raw = original_raw.copy()
+    raw.pick_channels(['AF3', 'F7', 'F3', 'FC5', 'T7', 'P7', 'O1', 'O2', 'P8', 'T8', 'FC6', 'F4', 'F8', 'AF4'])
+
+    chanls = [2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+
     raw_croped = raw.crop(tmax=60).load_data()
     raw_croped.resample(500)
     data = raw_croped.get_data()
+
+    # Added a band pass filter of range 1-40 Hz
+    mne.filter.filter_data(data,sfreq=128,l_freq=1,h_freq=40)
+
+
     sampling_freq = raw.info['sfreq']
     chanel_number = np.size(raw.info['ch_names'])
 
@@ -219,6 +232,8 @@ if __name__ == '__main__':
 
     EEG_clean = np.concatenate(preEEG_clean, axis=1)
 
+    plt.plot(EEG_clean[0, :])
+    plt.show()
     """ -- Plot all of chanels -- """
     # for i in range(np.size(EEG_clean, 0)):
     #     plt.subplot(np.size(EEG_clean, 0), 1, i+1)
@@ -233,11 +248,11 @@ if __name__ == '__main__':
     #         plt.plot(EEG_clean[(i * 8)+j, :])
     #     plt.show()
 
-    """ -- Plot chanels grouped 16 chanels -- """
-    for i in range(int(np.size(data, 0) / 16)):
-        for j in range(16):
-            plt.subplot(np.size(EEG_clean, 0) / 4, 1, j + 1)
-            plt.plot(np.multiply(data[(i * 16) + j, :], 1e6), 'r')
-            plt.plot(EEG_clean[(i * 16) + j, :])
-            plt.ylabel(raw.info['ch_names'][(i * 16)+j])
-        plt.show()
+    # """ -- Plot chanels grouped 16 chanels -- """
+    # for i in range(int(np.size(data, 0) / 16)):
+    #     for j in range(16):
+    #         plt.subplot(np.size(EEG_clean, 0) / 4, 1, j + 1)
+    #         plt.plot(np.multiply(data[(i * 16) + j, :], 1e6), 'r')
+    #         plt.plot(EEG_clean[(i * 16) + j, :])
+    #         plt.ylabel(raw.info['ch_names'][(i * 16)+j])
+    #     plt.show()

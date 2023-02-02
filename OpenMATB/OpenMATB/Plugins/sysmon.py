@@ -32,11 +32,17 @@ class Task(QtWidgets.QWidget):
                                        'color': '#ff0000',
                                        'duration': 1.5 * 1000,
                                        'trigger': 0}},
+            # 'lights': {
+            #     '1': {'name': 'F5', 'failure': False, 'on': True, 'default':
+            #           'on', 'oncolor': "#009900", 'keys': [QtCore.Qt.Key_F5]},
+            #     '2': {'name': 'F6', 'failure': False, 'on': False, 'default':
+            #           'off', 'oncolor': "#FF0000", 'keys': [QtCore.Qt.Key_F6]}
+            #           },
             'lights': {
-                '1': {'name': 'F5', 'failure': False, 'on': True, 'default':
-                      'on', 'oncolor': "#009900", 'keys': [QtCore.Qt.Key_F5]},
-                '2': {'name': 'F6', 'failure': False, 'on': False, 'default':
-                      'off', 'oncolor': "#FF0000", 'keys': [QtCore.Qt.Key_F6]}
+                '1': {'name': 'A', 'failure': False, 'on': True, 'default':
+                      'on', 'oncolor': "#009900", 'keys': [QtCore.Qt.Key_A]},
+                '2': {'name': 'S', 'failure': False, 'on': True, 'default':
+                      'on', 'oncolor': "#008c99", 'keys': [QtCore.Qt.Key_S]}
                       },
             'scales': {'1': {'name': 'F1', 'failure': 'no', 'keys':
                              [QtCore.Qt.Key_F1]},

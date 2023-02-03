@@ -889,15 +889,17 @@ if __name__ == '__main__':
 
     loadConfig()
 
-    scenario_FullPath, none = QtWidgets.QFileDialog.getOpenFileName(
-        None, VERSIONTITLE + ' - ' + _('Select a scenario'), SCENARIOS_PATH, "(*.txt)")
+    # scenario_FullPath, none = QtWidgets.QFileDialog.getOpenFileName(
+    #     None, VERSIONTITLE + ' - ' + _('Select a scenario'), SCENARIOS_PATH, "(*.txt)")
 
+    scenario_FullPath = '/home/abhishek/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/sample_scenario.txt'
     if os.path.exists(scenario_FullPath):
         pygame.init()
         window = Main(scenario_FullPath)
         window.setWindowTitle(VERSIONTITLE)
-
-        window.showFullScreen()
+        # window.showFullScreen()
+        window.showMinimized ()
+        # window.
         app.installEventFilter(window)
         window.runExperiment()
 

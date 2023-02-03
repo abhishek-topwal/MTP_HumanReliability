@@ -30,9 +30,9 @@
 # 3. Set scenario events
 
 # Retrieve participant information :
-0:00:00;participantinfo;start
-0:00:00;genericscales;filename;nasatlx_en.txt
-0:00:00;genericscales;start
+#0:00:00;participantinfo;start
+#0:00:00;genericscales;filename;nasatlx_en.txt
+#0:00:00;genericscales;start
 
 
 # 3.a. System monitoring events
@@ -40,6 +40,6 @@
 
 # 4. End tasks at 15 seconds
 
-0:00:12;sysmon;stop
-0:00:15;end
+0:00:15;sysmon;stop
+0:00:20;end
 

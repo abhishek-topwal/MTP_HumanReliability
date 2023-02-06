@@ -39,19 +39,37 @@ class Task(QtWidgets.QWidget):
             #           'off', 'oncolor': "#FF0000", 'keys': [QtCore.Qt.Key_F6]}
             #           },
             'lights': {
-                '1': {'name': 'A', 'failure': False, 'on': True, 'default':
-                      'on', 'oncolor': "#009900", 'keys': [QtCore.Qt.Key_A]},
-                '2': {'name': 'S', 'failure': False, 'on': True, 'default':
-                      'on', 'oncolor': "#008c99", 'keys': [QtCore.Qt.Key_S]}
+                '1': {'name': 'W', 'failure': False, 'on': True, 'default':
+                      'on', 'oncolor': "#009900", 'keys': [QtCore.Qt.Key_W]},
+                '2': {'name': 'E', 'failure': False, 'on': True, 'default':
+                      'on', 'oncolor': "#008c99", 'keys': [QtCore.Qt.Key_E]}
                       },
-            'scales': {'1': {'name': 'F1', 'failure': 'no', 'keys':
-                             [QtCore.Qt.Key_F1]},
-                       '2': {'name': 'F2', 'failure': 'no', 'keys':
-                             [QtCore.Qt.Key_F2]},
-                       '3': {'name': 'F3', 'failure': 'no', 'keys':
-                             [QtCore.Qt.Key_F3]},
-                       '4': {'name': 'F4', 'failure': 'no', 'keys':
-                             [QtCore.Qt.Key_F4]}}
+            # 'scales': {'1': {'name': 'F1', 'failure': 'no', 'keys':
+            #                  [QtCore.Qt.Key_F1]},
+            #            '2': {'name': 'F2', 'failure': 'no', 'keys':
+            #                  [QtCore.Qt.Key_F2]},
+            #            '3': {'name': 'F3', 'failure': 'no', 'keys':
+            #                  [QtCore.Qt.Key_F3]},
+            #            '4': {'name': 'F4', 'failure': 'no', 'keys':
+            #                  [QtCore.Qt.Key_F4]}}
+            # # }
+            # 'scales': {'1': {'name': 'A', 'failure': 'no', 'keys':
+            #                  [QtCore.Qt.Key_A]},
+            #            '2': {'name': 'S', 'failure': 'no', 'keys':
+            #                  [QtCore.Qt.Key_S]},
+            #            '3': {'name': 'D', 'failure': 'no', 'keys':
+            #                  [QtCore.Qt.Key_D]},
+            #            '4': {'name': 'F', 'failure': 'no', 'keys':
+            #                  [QtCore.Qt.Key_F]}}
+            # }
+            'scales': {'1': {'name': 'A', 'failure': 'no','on':True, 'keys':
+                             [QtCore.Qt.Key_A]},
+                       '2': {'name': 'S', 'failure': 'no','on':True, 'keys':
+                             [QtCore.Qt.Key_S]},
+                       '3': {'name': 'D', 'failure': 'no','on':True, 'keys':
+                             [QtCore.Qt.Key_D]},
+                       '4': {'name': 'F', 'failure': 'no','on':True, 'keys':
+                             [QtCore.Qt.Key_F]}}
             }
 
         self.performance = {
@@ -161,6 +179,7 @@ class Task(QtWidgets.QWidget):
                         gaugeValue['failure']):
 
                         # Start it...
+                        # print(gauge_type)
                         self.startFailure(gauge_type, gauge)
                         # ...and leave the loop
                         break
@@ -173,6 +192,8 @@ class Task(QtWidgets.QWidget):
             if 'ui' in scaleValues:
                 scaleValues['ui'].style = self.parameters['scalestyle']
                 scaleValues['ui'].position = scaleValues['position']
+                # scaleValues['ui'].arrow.setText(u'\u1F53B') 
+                #\u1F53B unicode character 'Red right pointing triangle'
 
         for thisLight, lightValues in self.parameters['lights'].items():
             if 'ui' in lightValues:
@@ -228,7 +249,7 @@ class Task(QtWidgets.QWidget):
 
     def startFailure(self, gauge_type, number):
         if len(self.currentFailure) > 0:
-            print("Failure already occuring for this gauge!")
+            print("Failure already occuring for this gauge!"+" "+gauge_type+" "+number)
             return
 
         self.currentFailure = {'type': gauge_type, 'number': number}

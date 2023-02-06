@@ -36,7 +36,11 @@ class WLight(QtWidgets.QWidget):
             bg = self.onColor
             self.light.setFrameStyle(QtWidgets.QFrame.Panel | QtWidgets.QFrame.Raised)
         else:
-            bg = ""
+            #initially bg = ''
+
+            # changing the failure color to red
+            bg = "#e82610" 
+
             self.light.setFrameStyle(QtWidgets.QFrame.Panel | QtWidgets.QFrame.Sunken)
 
 #        self.light.setBackgroundColor(0,bg)

@@ -58,6 +58,8 @@ class WScale(QtWidgets.QWidget):
     def paintEvent(self, e):
         if self.style==1:
             self.arrow.setText(u'\u25B6')
+            # self.arrow.setText(u'\u1F53')
+            # \u25B6 Unicode Character 'BLACK RIGHT-POINTING TRIANGLE'
             self.arrowFont = QtGui.QFont("sans-serif", self.scaleWidth/4, QtGui.QFont.Bold)
         elif self.style==2:
             self.arrow.setText("<font color='#FFFF00'>>></font>")
@@ -76,7 +78,6 @@ class WScale(QtWidgets.QWidget):
         elif self.style==2:
             self.drawscaleII(qp)
         qp.end()
-
 
     # MATB-I style
     def drawscaleI(self, qp):

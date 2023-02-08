@@ -1,0 +1,52 @@
+[1mdiff --git a/OpenMATB/OpenMATB/OpenMATB.py b/OpenMATB/OpenMATB/OpenMATB.py[m
+[1mindex 232abae..133d2d8 100644[m
+[1m--- a/OpenMATB/OpenMATB/OpenMATB.py[m
+[1m+++ b/OpenMATB/OpenMATB/OpenMATB.py[m
+[36m@@ -889,15 +889,17 @@[m [mif __name__ == '__main__':[m
+ [m
+     loadConfig()[m
+ [m
+[31m-    scenario_FullPath, none = QtWidgets.QFileDialog.getOpenFileName([m
+[31m-        None, VERSIONTITLE + ' - ' + _('Select a scenario'), SCENARIOS_PATH, "(*.txt)")[m
+[32m+[m[32m    # scenario_FullPath, none = QtWidgets.QFileDialog.getOpenFileName([m
+[32m+[m[32m    #     None, VERSIONTITLE + ' - ' + _('Select a scenario'), SCENARIOS_PATH, "(*.txt)")[m
+ [m
+[32m+[m[32m    scenario_FullPath = '/home/abhishek/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/sample_scenario.txt'[m
+     if os.path.exists(scenario_FullPath):[m
+         pygame.init()[m
+         window = Main(scenario_FullPath)[m
+         window.setWindowTitle(VERSIONTITLE)[m
+[31m-[m
+[31m-        window.showFullScreen()[m
+[32m+[m[32m        # window.showFullScreen()[m
+[32m+[m[32m        window.showMinimized ()[m
+[32m+[m[32m        # window.[m
+         app.installEventFilter(window)[m
+         window.runExperiment()[m
+ [m
+[1mdiff --git a/OpenMATB/OpenMATB/Scenarios/sample_scenario.txt b/OpenMATB/OpenMATB/Scenarios/sample_scenario.txt[m
+[1mindex a81741a..2c9f351 100644[m
+[1m--- a/OpenMATB/OpenMATB/Scenarios/sample_scenario.txt[m
+[1m+++ b/OpenMATB/OpenMATB/Scenarios/sample_scenario.txt[m
+[36m@@ -30,9 +30,9 @@[m
+ # 3. Set scenario events[m
+ [m
+ # Retrieve participant information :[m
+[31m-0:00:00;participantinfo;start[m
+[31m-0:00:00;genericscales;filename;nasatlx_en.txt[m
+[31m-0:00:00;genericscales;start[m
+[32m+[m[32m#0:00:00;participantinfo;start[m
+[32m+[m[32m#0:00:00;genericscales;filename;nasatlx_en.txt[m
+[32m+[m[32m#0:00:00;genericscales;start[m
+ [m
+ [m
+ # 3.a. System monitoring events[m
+[36m@@ -40,6 +40,6 @@[m
+ [m
+ # 4. End tasks at 15 seconds[m
+ [m
+[31m-0:00:12;sysmon;stop[m
+[31m-0:00:15;end[m
+[32m+[m[32m0:00:15;sysmon;stop[m
+[32m+[m[32m0:00:20;end[m
+ [m

@@ -42,6 +42,7 @@ class WScale(QtWidgets.QWidget):
         #~ self.tickposition_list = [1 + x*(-1)/length for x in range(length)]
 
         self.pen = QtGui.QPen(QtGui.QColor('#000000'), self.borderSize, QtCore.Qt.SolidLine)
+        # self.pen = QtGui.QPen(QtGui.QColor('#c41a1a'), self.borderSize, QtCore.Qt.SolidLine)
 
     def set_feedback(self, feedback_state=0, rgb_color='#ffff00'):
         if feedback_state == 1:
@@ -79,6 +80,11 @@ class WScale(QtWidgets.QWidget):
             self.drawscaleII(qp)
         qp.end()
 
+
+    def changeBoxColor(self,bg,scale=None):
+        print(f'{bg=},{scale=}')
+        self.pen = QtGui.QPen(QtGui.QColor(bg), self.borderSize, QtCore.Qt.SolidLine)
+        self.update()
     # MATB-I style
     def drawscaleI(self, qp):
 

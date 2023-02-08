@@ -3,6 +3,7 @@ from Helpers import QTExtensions, WScale, WLight
 from numpy import median
 import random
 from Helpers.Translator import translate as _
+from datetime import datetime
 
 class Task(QtWidgets.QWidget):
 
@@ -324,7 +325,9 @@ class Task(QtWidgets.QWidget):
         # If current position does not match the current scale state, move the
         # cursor in the propoer zone
         if actualPosition not in self.zones[whatZone]:
-            actualPosition = random.sample(self.zones[whatZone], 1)[0]
+            actualPosition = random.sample(self.zones[whatZone], 1)[0] 
+            
+            
 
         # If it does match...
         else:
@@ -343,6 +346,13 @@ class Task(QtWidgets.QWidget):
                 actualPosition -= direction
 
         # Finally, return the new computed cursor position
+        if(actualPosition<=3 or actualPosition>=7):
+            print(str(whatScale)+" "+str(actualPosition))
+            bg = '#c41a1a' 
+        else:
+            bg = '#000000'
+        self.parameters['scales'][whatScale]['ui'].changeBoxColor(bg,whatScale)
+        self.parameters['scales'][whatScale]['ui'].update()
         return actualPosition
 
     def refreshModeLabel(self):

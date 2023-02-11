@@ -28,13 +28,15 @@
 # Retrieve participant information :
 
 # 3.a. System monitoring events
-0:00:10;sysmon;scales-1-failure;down
+0:00:04;sysmon;lights-2-failure;True
+0:00:07;sysmon;scales-1-failure;down
+0:00:10;sysmon;lights-1-failure;True
 0:00:13;sysmon;scales-2-failure;up
 0:00:16;sysmon;scales-3-failure;down
 0:00:19;sysmon;scales-4-failure;up
 
-# 4. End tasks at 25 seconds
+# 4. End tasks at 30 seconds
 
-0:00:23;sysmon;stop
-0:00:25;end
+0:00:25;sysmon;stop
+0:00:30;end
 

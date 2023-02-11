@@ -1,0 +1,39 @@
+# Scenario template
+# specifically working for communications tasks
+# Durations are expressed in milliseconds
+
+# 1. Set tasks parameters
+
+# 1.a. System monitoring parameters
+# Nothing
+
+# 1.b.i. Resources management parameters
+# Nothing
+
+# 1.b.ii. Pumps status parameters
+# Nothing
+
+# 1.c. Tracking parameters
+# Nothing
+
+# 1.d. Communications parameters
+
+0:00:00;communications;callsignregex;[A-Z][A-Z]\d\d
+0:00:00;communications;othercallsignnumber;5
+0:00:00;communications;voicegender;male
+0:00:00;communications;voiceidiom;english
+
+# 2. Start appropriate tasks
+0:00:00;communications;start
+
+# 3. Set scenario events
+
+# 3.d. Communications events
+0:00:05;communications;radioprompt;other
+0:00:20;communications;radioprompt;own
+
+# 4. End tasks at 28 seconds
+
+0:00:25;communications;stop
+0:00:28;end
+

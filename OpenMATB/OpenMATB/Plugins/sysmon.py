@@ -352,7 +352,7 @@ class Task(QtWidgets.QWidget):
         else:
             bg = '#000000'
         self.parameters['scales'][whatScale]['ui'].changeBoxColor(bg,whatScale)
-        self.parameters['scales'][whatScale]['ui'].update()
+        # self.parameters['scales'][whatScale]['ui'].update()
         return actualPosition
 
     def refreshModeLabel(self):

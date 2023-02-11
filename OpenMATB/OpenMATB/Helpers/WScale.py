@@ -82,9 +82,9 @@ class WScale(QtWidgets.QWidget):
 
 
     def changeBoxColor(self,bg,scale=None):
-        print(f'{bg=},{scale=}')
         self.pen = QtGui.QPen(QtGui.QColor(bg), self.borderSize, QtCore.Qt.SolidLine)
         self.update()
+        
     # MATB-I style
     def drawscaleI(self, qp):
 

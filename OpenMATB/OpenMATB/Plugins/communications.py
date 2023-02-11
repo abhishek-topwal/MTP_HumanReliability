@@ -287,6 +287,7 @@ class Task(QtWidgets.QWidget):
 
                         # Play the file and the log a prompt start
                         mixer.Sound(audiofile_path).play()
+                        
                         self.buildLog(["STATE", this_destination.upper(),
                                       this_radio_name, "START_PROMPT"])
                         self.temp_destination = this_destination.upper()
@@ -483,7 +484,7 @@ class Task(QtWidgets.QWidget):
         else:
             self.modeLabel.setText("<b>%s</b>" % _('MANUAL'))
         self.modeLabel.show()
-
+    
     def buildLog(self, thisList):
         thisList = ["COMMUN"] + thisList
         self.parent().mainLog.addLine(thisList)

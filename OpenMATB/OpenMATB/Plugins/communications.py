@@ -471,7 +471,8 @@ class Task(QtWidgets.QWidget):
 
         output = wave.open(outfile_path, 'wb')
         output.setparams(data[0][0])
-        output.setframerate(41000)
+        # output.setframerate(41000) initial frame rate 
+        output.setframerate(22500) # changed frame rate
         for d, this_data in enumerate(data):
             output.writeframes(data[d][1])
         output.close()

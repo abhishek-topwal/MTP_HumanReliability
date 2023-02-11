@@ -29,11 +29,11 @@
 # 3. Set scenario events
 
 # 3.d. Communications events
-0:00:05;communications;radioprompt;other
-0:00:20;communications;radioprompt;own
+0:00:05;communications;radioprompt;own
+#0:00:20;communications;radioprompt;own
 
 # 4. End tasks at 28 seconds
 
-0:00:25;communications;stop
-0:00:28;end
+0:00:30;communications;stop
+0:00:35;end
 

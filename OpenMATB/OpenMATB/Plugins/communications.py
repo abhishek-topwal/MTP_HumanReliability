@@ -150,8 +150,11 @@ class Task(QtWidgets.QWidget):
         # Display (own) environment...
         self.callsign = QtWidgets.QLabel(self)
         self.callsign.setText(
-            u'Identifiant    \u27A1    ' + self.parameters['owncallsign'])
+            u'CALL SIGN    \u27A1    ' + self.parameters['owncallsign'])
         self.callsign.setFont(self.font)
+        self.callsign.setStyleSheet("color: blue; font-size: 18pt;")
+                                    
+        # self.callsign.setStyleSheet("color: blue;")
         self.callsign.setAlignment(
             QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
         self.callsign.setGeometry(

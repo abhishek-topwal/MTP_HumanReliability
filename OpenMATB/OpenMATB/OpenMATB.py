@@ -893,8 +893,8 @@ if __name__ == '__main__':
     #     None, VERSIONTITLE + ' - ' + _('Select a scenario'), SCENARIOS_PATH, "(*.txt)")
 
     # scenario_FullPath = '/home/abhishek/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/sample_scenario.txt'
-    scenario_FullPath = '/home/abhishek/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/complete_sysmon.txt'
-    # scenario_FullPath = '/home/abhishek/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/complete_comm.txt'
+    # scenario_FullPath = '/home/abhishek/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/complete_sysmon.txt'
+    scenario_FullPath = '/home/abhishek/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/complete_comm.txt'
     # scenario_FullPath = '/home/abhishek/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/complete_track.txt'
     if os.path.exists(scenario_FullPath):
         pygame.init()

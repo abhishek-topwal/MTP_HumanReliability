@@ -15,7 +15,7 @@ class Task(QtWidgets.QWidget):
             'title': 'System monitoring',
             'taskplacement': 'topleft',
             'taskupdatetime': 200,
-            'alerttimeout': 10000,
+            'alerttimeout': 5000,
             'automaticsolver': False,
             'automaticsolverdelay': 1 * 1000,
             'displayautomationstate': False,
@@ -241,7 +241,8 @@ class Task(QtWidgets.QWidget):
 
                         # Uncorrect key -> failure continues (false alarm)
                         else:
-                            self.record_performance('NA', 'fa')
+                            self.endFailure(False)
+                            # self.record_performance('NA', 'fa')
 
     def endFeedBackTimer(self):
         self.feedbackTimer.stop()
@@ -273,7 +274,6 @@ class Task(QtWidgets.QWidget):
             self.failuretimeoutTimer.start(self.parameters['alerttimeout'])
 
     def endFailure(self, success=False):
-
         gauge_type = self.currentFailure['type']
         number = self.currentFailure['number']
         gauge_feedback = self.parameters[gauge_type][number]

@@ -210,7 +210,7 @@ class Task(QtWidgets.QWidget):
                     self.trigger_feedback(trigger_ui, f)
                     v['trigger'] = None
 
-    def keyEvent(self, key_pressed):
+    def keyEvent(self, key_pressed,event=None):
 
         # If automaticsolver on, do not listen for keyboard inputs
         if (self.parameters['automaticsolver'] is True
@@ -345,14 +345,13 @@ class Task(QtWidgets.QWidget):
                 # ...move in the opposite direction
                 actualPosition -= direction
 
-        # Finally, return the new computed cursor position
         if(actualPosition<=3 or actualPosition>=7):
-            print(str(whatScale)+" "+str(actualPosition))
+            # print(str(whatScale)+" "+str(actualPosition))
             bg = '#c41a1a' 
         else:
             bg = '#000000'
         self.parameters['scales'][whatScale]['ui'].changeBoxColor(bg,whatScale)
-        # self.parameters['scales'][whatScale]['ui'].update()
+        # Finally, return the new computed cursor position
         return actualPosition
 
     def refreshModeLabel(self):

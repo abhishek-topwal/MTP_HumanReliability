@@ -317,7 +317,7 @@ class Task(QtWidgets.QWidget):
                             radio_values['lasttarget']):
                         print('! ' + self.parent().scenarioTimeStr + " : " +"prompt required but mixer already busy! Check that your prompts are spaced with a sufficient duration")
 
-    def keyEvent(self, key_pressed):
+    def keyEvent(self, key_pressed,event=None):
         own_radios = self.parameters['radios']['own']
         if self.automaticsolving:
             return

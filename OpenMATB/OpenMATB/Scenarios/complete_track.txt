@@ -1,0 +1,38 @@
+# Scenario template
+# specifically working for system monitoring tasks
+# Durations are expressed in milliseconds
+
+# 1. Set tasks parameters
+
+
+# 1.a. System monitoring parameters
+
+# 1.b.i. Resources management parameters
+# Nothing
+
+# 1.b.ii. Pumps status parameters
+# Nothing
+
+# 1.c. Tracking parameters
+0:00:00;track;cursorcolor;#009900
+
+# 1.d. Communications parameters
+# Nothing
+
+# 2. Start appropriate tasks
+0:00:00;track;start
+
+
+# 3. Set scenario events
+
+# Retrieve participant information :
+# 3.c. Tracking events
+
+0:00:08;track;automaticsolver;False
+0:00:20;track;automaticsolver;False
+
+# 4. End tasks at 30 seconds
+
+0:00:25;track;stop
+0:00:30;end
+

@@ -25,6 +25,7 @@ class Task(QtWidgets.QWidget):
             'cutofffrequency': 0.06,
             'equalproportions': True,
             'resetperformance': None,
+            'coordinates':(0,0)
         }
 
         self.performance = {
@@ -56,16 +57,19 @@ class Task(QtWidgets.QWidget):
         # Add the WTrack object to the layout
         layout.addWidget(self.widget)
         self.setLayout(layout)
+        
+        ############################ FOR JOYSTICK ############################################
+        # pygame.joystick.init()
 
-        pygame.joystick.init()
+        # # Check for a joystick device
+        # if pygame.joystick.get_count() == 0:
+        #     self.parent().showCriticalMessage(
+        #         _("Please plug a joystick for the '%s' task!") % (self.parameters['title']))
+        # else:
+        #     self.my_joystick = pygame.joystick.Joystick(0)
+        #     self.my_joystick.init()
+        #######################################################################################
 
-        # Check for a joystick device
-        if pygame.joystick.get_count() == 0:
-            self.parent().showCriticalMessage(
-                _("Please plug a joystick for the '%s' task!") % (self.parameters['title']))
-        else:
-            self.my_joystick = pygame.joystick.Joystick(0)
-            self.my_joystick.init()
 
         # Log some task information once
         self.buildLog(["STATE", "TARGET", "X", str(0.5)])
@@ -95,7 +99,7 @@ class Task(QtWidgets.QWidget):
 
         # Compute next cursor coordinates (x,y)
         current_X, current_Y = self.widget.moveCursor()
-
+        # print(f'current_X:{current_X}, current_Y:{current_Y}')
         # If automatic solver : always correct cursor position
         if self.parameters['automaticsolver']:
             x_input, y_input = self.widget.getAutoCompensation()
@@ -103,7 +107,12 @@ class Task(QtWidgets.QWidget):
         # Else record manual compensatory movements
         else:
             # Retrieve potentials joystick inputs (x,y)
-            x_input, y_input = self.joystick_input()
+            # x_input, y_input = self.joystick_input()
+            ############### KEYBOARD INPUT #############################
+            x_input, y_input = self.parameters['coordinates']
+            self.parameters['coordinates'] = (0,0)
+            # print(f'X_input:{x_input}, Y_input:{y_input}')
+            ############################################################
 
             # If assisted solver : correct cursor position only if joystick
             # inputs something
@@ -114,7 +123,8 @@ class Task(QtWidgets.QWidget):
         # Modulate cursor position with potentials joystick inputs
         current_X += x_input
         current_Y += y_input
-
+        # print(f'new_X:{current_X}, new_Y:{current_Y}')
+        # print('\n')
         # Refresh the display
         self.widget.refreshCursorPosition(current_X, current_Y)
 
@@ -132,6 +142,24 @@ class Task(QtWidgets.QWidget):
             current_deviation = self.widget.returnAbsoluteDeviation()
             perf_val['points_number'] += 1
             perf_val['deviation_mean'] = perf_val['deviation_mean'] * ((perf_val['points_number']-1) / float(perf_val['points_number'])) + current_deviation * (float(1) / perf_val['points_number'])
+
+ 
+    
+    def keyEvent(self,key_pressed,event=None):
+        numpad_mod = int(event.modifiers()) & QtCore.Qt.KeypadModifier
+        if key_pressed == QtCore.Qt.Key_5 and numpad_mod:
+            #DOWN movement
+            self.parameters['coordinates'] = (0,0.1)
+        if key_pressed == QtCore.Qt.Key_8 and numpad_mod:
+            #UP movement
+            self.parameters['coordinates'] = (0,-0.1)
+        if key_pressed == QtCore.Qt.Key_6 and numpad_mod:
+            #RIGHT movement
+            self.parameters['coordinates'] = (0.1,0)
+        if key_pressed == QtCore.Qt.Key_4 and numpad_mod:
+            #LEFT movement
+            self.parameters['coordinates'] = (-0.1,0)
+    
 
     def joystick_input(self):
         if self.my_joystick:

@@ -261,7 +261,7 @@ class Task(QtWidgets.QWidget):
                         perf_val[thisTank.lower()+'_out'] += 1
         self.update()
 
-    def keyEvent(self, key_pressed):
+    def keyEvent(self, key_pressed,event=None):
 
         if self.parameters['heuristicsolver']:
             return

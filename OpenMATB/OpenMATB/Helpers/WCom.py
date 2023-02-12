@@ -13,7 +13,7 @@ class WCom (QtWidgets.QWidget):
         self.radio_index = self.radio['index']
         self.is_selected = self.radio_index == 0
         self.font = self.parent().font
-
+        
         # Placement and sizes
         self.radio_select_ulx = 85 / 595. * self.parent().width()
         self.radio_name_ulx = 165 / 595. * self.parent().width()

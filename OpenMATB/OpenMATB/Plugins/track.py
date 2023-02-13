@@ -173,11 +173,16 @@ class Task(QtWidgets.QWidget):
 
     def refreshModeLabel(self):
         if self.parameters['automaticsolver']:
-            self.modeLabel.setText("<b>%s</b>" % _('AUTO ON'))
+            # self.modeLabel.setText("<b>%s</b>" % _('AUTO ON'))
+            self.modeLabel.setText("AUTO ON")
+            self.modeLabel.setStyleSheet("color:blue;font-size: 18pt;")
+
         elif self.parameters['assistedsolver']:
             self.modeLabel.setText("<b>%s</b>" % _('ASSIST ON'))
         else:
-            self.modeLabel.setText("<b>%s</b>" % _('MANUAL'))
+            self.modeLabel.setText("MANUAL")
+            self.modeLabel.setStyleSheet("color:red;font-size: 18pt;")
+            # self.modeLabel.setText("<<b>%s</b>" % _('MANUAL'))
         self.modeLabel.show()
 
     def buildLog(self, thisList):

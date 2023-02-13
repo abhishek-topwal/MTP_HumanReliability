@@ -29,7 +29,7 @@
 # 3.c. Tracking events
 
 0:00:08;track;automaticsolver;False
-0:00:20;track;automaticsolver;False
+0:00:15;track;automaticsolver;True
 
 # 4. End tasks at 30 seconds
 

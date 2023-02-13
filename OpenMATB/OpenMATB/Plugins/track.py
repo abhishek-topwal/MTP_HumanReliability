@@ -16,7 +16,7 @@ class Task(QtWidgets.QWidget):
             'taskupdatetime': 20,
             'title': 'Tracking',
             'cursorcolor': '#0000FF',
-            'cursorcoloroutside': '#0000FF',
+            'cursorcoloroutside': '#e82610', #changes the outside color to red
             'automaticsolver': False,
             'displayautomationstate': True,
             'assistedsolver': False,
@@ -108,7 +108,7 @@ class Task(QtWidgets.QWidget):
         else:
             # Retrieve potentials joystick inputs (x,y)
             # x_input, y_input = self.joystick_input()
-            ############### KEYBOARD INPUT #############################
+            ############### FOR KEYBOARD INPUT #########################
             x_input, y_input = self.parameters['coordinates']
             self.parameters['coordinates'] = (0,0)
             # print(f'X_input:{x_input}, Y_input:{y_input}')

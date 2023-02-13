@@ -22,6 +22,7 @@ class WTrack (QtWidgets.QWidget):
         else:
             self.task_width = self.task_height = min(self.parent().width(), self.parent().height())*self.occupiedSpace
 
+
         # Define various sizes (lines, cursor, reticulum, ticks)
         self.penSize = self.task_height / 150.
         self.cursor_diam = 0.1  # 10%
@@ -83,7 +84,6 @@ class WTrack (QtWidgets.QWidget):
             return False
 
         xpos, ypos = self.getPositionFromRelative(x, y)
-
         return self.targetArea.contains(xpos, ypos)
 
     def moveCursor(self):

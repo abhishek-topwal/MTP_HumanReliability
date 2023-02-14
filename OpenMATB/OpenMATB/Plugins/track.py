@@ -182,7 +182,6 @@ class Task(QtWidgets.QWidget):
         else:
             self.modeLabel.setText("MANUAL")
             self.modeLabel.setStyleSheet("color:red;font-size: 18pt;")
-            # self.modeLabel.setText("<<b>%s</b>" % _('MANUAL'))
         self.modeLabel.show()
 
     def buildLog(self, thisList):

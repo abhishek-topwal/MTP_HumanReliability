@@ -25,6 +25,7 @@
 
 # 2. Start appropriate tasks
 0:00:00;sysmon;start
+0:00:00;resman;start
 
 
 # 3. Set scenario events
@@ -38,5 +39,6 @@
 # 4. End tasks at 20 seconds
 
 0:00:17;sysmon;stop
+0:00:17;resman;stop
 0:00:20;end
 

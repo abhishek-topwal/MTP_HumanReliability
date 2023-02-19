@@ -16,6 +16,7 @@ class Task(QtWidgets.QWidget):
             'taskplacement': 'topleft',
             'taskupdatetime': 200,
             'alerttimeout': 5000,
+            # 'alerttimeout': 3000, for high cognitive workload
             'automaticsolver': False,
             'automaticsolverdelay': 1 * 1000,
             'displayautomationstate': False,

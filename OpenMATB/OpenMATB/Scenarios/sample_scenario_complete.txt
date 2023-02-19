@@ -24,9 +24,9 @@
 0:00:00;communications;voiceidiom;english
 
 # 2. Start appropriate tasks
-0:00:00;sysmon;start
+#0:00:00;sysmon;start
 0:00:00;communications;start
-0:00:00;track;start
+#0:00:00;track;start
 
 
 # 3. Set scenario events
@@ -34,20 +34,22 @@
 # Retrieve participant information :
 
 # 3.a. System monitoring events
-0:00:05;sysmon;lights-2-failure;True
-0:00:40;sysmon;scales-2-failure;up
+#0:00:05;sysmon;lights-2-failure;True
+#0:00:40;sysmon;scales-2-failure;up
 
 # 3.c. Tracking events
-0:00:10;track;automaticsolver;False
-0:00:19;track;automaticsolver;True
+#0:00:00;track;automaticsolver;True
+#0:00:19;track;automaticsolver;False
 
 # 3.d. Communications events
-0:00:20;communications;radioprompt;own
+0:00:05;communications;radioprompt;own
+0:00:25;communications;radioprompt;other
+
 
 # 4. End tasks at 20 seconds
 
-0:00:55;sysmon;stop
+#0:00:55;sysmon;stop
 0:00:55;communications;stop
-0:00:55;track;stop
+#0:00:55;track;stop
 0:01:00;end
 

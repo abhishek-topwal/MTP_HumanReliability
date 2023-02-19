@@ -893,7 +893,9 @@ if __name__ == '__main__':
     #     None, VERSIONTITLE + ' - ' + _('Select a scenario'), SCENARIOS_PATH, "(*.txt)")
 
     # scenario_FullPath = '/home/abhishek/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/sample_scenario.txt'
-    scenario_FullPath = '/home/abhi/Desktop/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/sample_scenario_complete.txt'
+    # scenario_FullPath = '/home/abhi/Desktop/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/sample_scenario_complete.txt'
+    scenario_FullPath = '/home/abhishek/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/scenario_settings1.txt'
+    # scenario_FullPath = '/home/abhishek/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/sample_scenario_complete.txt'
     # scenario_FullPath = '/home/abhishek/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/complete_sysmon.txt'
     # scenario_FullPath = '/home/abhishesk/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/complete_comm.txt'
     # scenario_FullPath = '/home/abhishek/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/complete_track.txt'

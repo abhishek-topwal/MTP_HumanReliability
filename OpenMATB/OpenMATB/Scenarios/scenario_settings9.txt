@@ -32,7 +32,7 @@
 
 # 3. Set scenario events
 
-# 3.a. System monitoring events
+# 3.a. System monitoring events-
 0:00:05;sysmon;scales-1-failure;down
 0:00:08;sysmon;scales-2-failure;down
 0:00:11;sysmon;lights-2-failure;True

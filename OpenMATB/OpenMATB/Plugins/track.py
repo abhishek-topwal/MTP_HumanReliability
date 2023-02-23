@@ -142,7 +142,8 @@ class Task(QtWidgets.QWidget):
             current_deviation = self.widget.returnAbsoluteDeviation()
             perf_val['points_number'] += 1
             perf_val['deviation_mean'] = perf_val['deviation_mean'] * ((perf_val['points_number']-1) / float(perf_val['points_number'])) + current_deviation * (float(1) / perf_val['points_number'])
-
+        
+        print(self.performance)
  
     
     def keyEvent(self,key_pressed,event=None):

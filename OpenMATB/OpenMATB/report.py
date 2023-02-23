@@ -5,6 +5,8 @@ sysmon_list = []
 track_list = []
 comm_list = []
 
+
+#************************************COMMUNICATION MODULE************************************
 def getCommScore(comm_list):
 
     curr_target = ''
@@ -29,7 +31,8 @@ def getCommScore(comm_list):
             j = i
             while comm_list[j][5]!='RETURN':
                 j+=1
-                if(j==len(comm_list)-1) or (comm_list[j][4]=='OWN' and comm_list[j][6]=='TARGET'):
+                if(j==len(comm_list)-1) or (comm_list[j][4]=='OWN' 
+                                            and comm_list[j][6]=='TARGET'):
                     flag = 1
                     break
 
@@ -70,7 +73,8 @@ def getCommScore(comm_list):
             # check if there is any change in the frequency of this channel
             j = i+1
             for _ in range(i+1,len(comm_list)):
-                if(comm_list[j][5]==channel and comm_list[j][6]!='START_PROMPT\n' and comm_list[j][6]!='TARGET\n'):
+                if(comm_list[j][5]==channel and comm_list[j][6]!='START_PROMPT\n' 
+                   and comm_list[j][6]!='TARGET\n'):
                     # case when the frequency is changed
                     response_times.append(30)
                     repsonse_accuracies.append(0)
@@ -81,7 +85,10 @@ def getCommScore(comm_list):
     print('Response Times: ',response_times)
     print('Response Accuracies: ',repsonse_accuracies)
 
+#*************************************************************************************
 
+
+#************************************SYSMON MODULE************************************
 def getSysmonScore(sysmon_list):
     total_failures = 0
     total_hits = 0
@@ -112,6 +119,15 @@ def getSysmonScore(sysmon_list):
     print('False Alarms: ',false_alarm)
     print('Average Response Time: ',avg_response_time)
 
+#*************************************************************************************
+
+#************************************TRACKING MODULE**********************************
+
+def getTrackScore(track_list):
+    pass
+
+
+#*************************************************************************************
 
 if __name__ == '__main__':
     participant_info = []

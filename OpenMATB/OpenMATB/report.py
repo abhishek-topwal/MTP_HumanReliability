@@ -11,8 +11,10 @@ def getCommScore(comm_list):
     response_times = []
     repsonse_accuracies = []
     for i in range(len(comm_list)):
+
+        # case when the prompt is for the subject
         if comm_list[i][4]=='OWN' and comm_list[i][6]=='TARGET':
-            #get tht channel
+            #get the channel
             channel = comm_list[i][5]
             #get the start time
             start_time = datetime.strptime(comm_list[i][0], '%H:%M:%S.%f')
@@ -27,12 +29,12 @@ def getCommScore(comm_list):
             j = i
             while comm_list[j][5]!='RETURN':
                 j+=1
-                if(j==len(comm_list)-1) or comm_list[j][4]=='OWN' and comm_list[j][6]=='TARGET':
+                if(j==len(comm_list)-1) or (comm_list[j][4]=='OWN' and comm_list[j][6]=='TARGET'):
                     flag = 1
                     break
 
             if(flag==1):
-                # case when 'ENTER' is not pressed and another prompt has started
+                # case when 'ENTER' is not pressed or another prompt has started
                 # add 30 seconds to the response time
                 response_times.append(30)
                 # add 0 to the accuracy
@@ -45,7 +47,7 @@ def getCommScore(comm_list):
             while not (comm_list[j][4]=='OWN' and comm_list[j][5]==channel):
                 j-=1
 
-            end_time = datetime.strptime(comm_list[i][0], '%H:%M:%S.%f')
+            end_time = datetime.strptime(comm_list[j][0], '%H:%M:%S.%f')
             response_time = end_time - start_time
             # print(response_time.total_seconds())
             response_times.append(response_time.total_seconds())
@@ -56,6 +58,25 @@ def getCommScore(comm_list):
             # print(error)
             accuracy = 1 - error
             repsonse_accuracies.append(accuracy) 
+
+
+        #case when the prompt is not for the subject
+        if comm_list[i][4]=='OTHER' and comm_list[i][6]=='TARGET':
+            # is the subject changes the frequency in this case
+            # then the accuracy is 0 and the response time is 30 seconds
+            #get the channel
+            channel = comm_list[i][5]
+
+            # check if there is any change in the frequency of this channel
+            j = i+1
+            for _ in range(i+1,len(comm_list)):
+                if(comm_list[j][5]==channel and comm_list[j][6]!='START_PROMPT\n' and comm_list[j][6]!='TARGET\n'):
+                    # case when the frequency is changed
+                    response_times.append(30)
+                    repsonse_accuracies.append(0)
+                    break
+                j+=1
+            j = i
 
     print('Response Times: ',response_times)
     print('Response Accuracies: ',repsonse_accuracies)
@@ -113,7 +134,7 @@ if __name__ == '__main__':
             if line[2] == 'SYSMON':
                 sysmon_list.append(line)
             
-            if line[2] == 'COMMUN':
+            if line[2] == 'COMMUN' and line[6]!='SELECTED\n':
                 comm_list.append(line)
 
 

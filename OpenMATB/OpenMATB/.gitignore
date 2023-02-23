@@ -1,4 +1,4 @@
-*.log
+# *.log
 *.pyc
 *.orig
 *.zip
@@ -12,7 +12,7 @@ generateSequence
 computeData.py
 eyetrackerDetector.*
 build/
-OpenMATB/
+# OpenMATB/
 compilation_cxfreeze.py
 compilation_cxfreeze.bat
 .Rhistory

@@ -30,10 +30,11 @@
 
 # 3.d. Communications events
 0:00:05;communications;radioprompt;own
-0:00:25;communications;radioprompt;own
+0:00:30;communications;radioprompt;other
+0:00:50;communications;radioprompt;own
 
-# 4. End tasks at 28 seconds
+# 4. End tasks at 80 seconds
 
-0:00:40;communications;stop
-0:00:45;end
+0:01:15;communications;stop
+0:01:20;end
 

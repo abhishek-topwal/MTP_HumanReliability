@@ -3,6 +3,8 @@ from Helpers import WTrack
 from Helpers.Translator import translate as _
 import pygame
 
+
+file = open("track_log.txt", "w")
 class Task(QtWidgets.QWidget):
 
     def __init__(self, parent):
@@ -92,6 +94,7 @@ class Task(QtWidgets.QWidget):
                     self.performance[self.parameters['resetperformance']][i] = 0
             else:
                 self.parent().showCriticalMessage(_("%s : wrong argument in track;resetperformance") % self.parameters['resetperformance'])
+
             self.parameters['resetperformance'] = None
 
         # Preallocate x and y input variables
@@ -143,7 +146,11 @@ class Task(QtWidgets.QWidget):
             perf_val['points_number'] += 1
             perf_val['deviation_mean'] = perf_val['deviation_mean'] * ((perf_val['points_number']-1) / float(perf_val['points_number'])) + current_deviation * (float(1) / perf_val['points_number'])
         
-        print(self.performance)
+        if not self.parameters['automaticsolver']:
+            file.write(str(self.performance)+'\n')
+           
+
+        
  
     
     def keyEvent(self,key_pressed,event=None):

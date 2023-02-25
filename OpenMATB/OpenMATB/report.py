@@ -124,7 +124,45 @@ def getSysmonScore(sysmon_list):
 #************************************TRACKING MODULE**********************************
 
 def getTrackScore(track_list):
-    pass
+    
+    split_list = []
+    count = 0
+    i=0
+    total_time_out = []
+    mean_deviation_list = []
+
+    while i <len(track_list):
+        if track_list[i] != 'AUTO\n':
+            j = i
+            temp_list=[]
+            while(j<len(track_list) and track_list[j]!='AUTO\n'):
+                temp_list.append(track_list[j])
+                j+=1
+            split_list.append(temp_list)
+            i = j
+        i+=1
+    
+    for event in split_list:
+        # print(type(event[0]))
+        temp_mean =0.0
+        time_in = 0
+        time_out = 0
+        for i in range(len(event)):
+            event_dict = eval(event[i])
+            if(i==0):
+                time_in = event_dict['total']['time_out_ms']
+            if(i==len(event)-1):
+                time_out = event_dict['total']['time_out_ms']
+            temp_mean += event_dict['total']['deviation_mean']
+        
+        mean_deviation_list.append(temp_mean/len(event))
+        total_time_out.append(time_out-time_in)
+        # print(time_out-time_in)
+
+    print('Mean Deviation: ',mean_deviation_list)
+    print('Total Time Out: ',total_time_out)
+    # [print(ele) for ele in split_list]
+
 
 
 #*************************************************************************************
@@ -139,7 +177,7 @@ if __name__ == '__main__':
     # #open a file
     # f = open(log_file_path, 'w')
 
-    # traverse thorugh the log file
+    # traverse thorugh the log file for sysmon and communication events
     with open(log_file_path ,'r') as f:
         for line in f:
             line = line.split('\t')
@@ -153,8 +191,13 @@ if __name__ == '__main__':
             if line[2] == 'COMMUN' and line[6]!='SELECTED\n':
                 comm_list.append(line)
 
+    # traverse thorugh the log file for tracking events
+    track_log_file_path = 'track_log.txt'
+    with open(track_log_file_path ,'r') as tf:
+        for line in tf:
+            track_list.append(line)
 
-# [print (i) for i in comm_list]
-
-getCommScore(comm_list)
+# [print (i) for i in track_list]
+getTrackScore(track_list)
+# getCommScore(comm_list)
 # getSysmonScore(sysmon_list)

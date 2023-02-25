@@ -4,7 +4,10 @@ from Helpers.Translator import translate as _
 import pygame
 
 
-file = open("track_log.txt", "w")
+file = open("track_log.txt", "r+")
+file.seek(0)
+file.truncate()
+dash_flag = 0
 class Task(QtWidgets.QWidget):
 
     def __init__(self, parent):
@@ -146,13 +149,17 @@ class Task(QtWidgets.QWidget):
             perf_val['points_number'] += 1
             perf_val['deviation_mean'] = perf_val['deviation_mean'] * ((perf_val['points_number']-1) / float(perf_val['points_number'])) + current_deviation * (float(1) / perf_val['points_number'])
         
+        global dash_flag
         if not self.parameters['automaticsolver']:
             file.write(str(self.performance)+'\n')
-           
-
+        else:
+            dash_flag = 1
         
- 
-    
+        if dash_flag==1:
+            dash_flag = 0
+            file.write('AUTO\n')
+            
+
     def keyEvent(self,key_pressed,event=None):
         numpad_mod = int(event.modifiers()) & QtCore.Qt.KeypadModifier
         if key_pressed == QtCore.Qt.Key_5 and numpad_mod:

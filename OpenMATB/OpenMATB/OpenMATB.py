@@ -901,9 +901,10 @@ if __name__ == '__main__':
     # scenario_FullPath = '/home/abhishek/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/complete_sysmon.txt'
     # scenario_FullPath = '/home/abhi/Desktop/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/complete_sysmon.txt'
     # scenario_FullPath = '/home/abhi/Desktop/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/complete_comm.txt'
-    scenario_FullPath = '/home/abhi/Desktop/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/complete_track.txt'
+    # scenario_FullPath = '/home/abhi/Desktop/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/complete_track.txt'
     # scenario_FullPath = '/home/abhishesk/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/complete_comm.txt'
     # scenario_FullPath = '/home/abhishek/Documents/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/complete_track.txt'
+    scenario_FullPath = '/home/abhi/Desktop/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/scenario_settings5.txt'
     if os.path.exists(scenario_FullPath):
         pygame.init()
         window = Main(scenario_FullPath)
@@ -919,4 +920,5 @@ if __name__ == '__main__':
     else:
         OSCriticalErrorMessage(_("Error"), _("No scenario selected!"))
 
+    
     sys.exit(app.exec_())

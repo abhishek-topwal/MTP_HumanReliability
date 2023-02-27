@@ -12,7 +12,8 @@ def getCommScore(comm_list):
     curr_target = ''
     response_times = []
     repsonse_accuracies = []
-    for i in range(len(comm_list)):
+    i = 0
+    while i < len(comm_list):
 
         # case when the prompt is for the subject
         if comm_list[i][4]=='OWN' and comm_list[i][6]=='TARGET':
@@ -66,7 +67,7 @@ def getCommScore(comm_list):
         #case when the prompt is not for the subject
         if comm_list[i][4]=='OTHER' and comm_list[i][6]=='TARGET':
             # is the subject changes the frequency in this case
-            # then the accuracy is 0 and the response time is 30 seconds
+            # then the accuracy is 0 and the response time peanlised is 30 seconds
             #get the channel
             channel = comm_list[i][5]
 
@@ -76,11 +77,15 @@ def getCommScore(comm_list):
                 if(comm_list[j][5]==channel and comm_list[j][6]!='START_PROMPT\n' 
                    and comm_list[j][6]!='TARGET\n'):
                     # case when the frequency is changed
+                    print("HERE\n") 
                     response_times.append(30)
                     repsonse_accuracies.append(0)
                     break
                 j+=1
-            j = i
+        
+        i+=1
+
+
 
     print('Response Times: ',response_times)
     print('Response Accuracies: ',repsonse_accuracies)
@@ -121,8 +126,8 @@ def getSysmonScore(sysmon_list):
 
 #*************************************************************************************
 
-#************************************TRACKING MODULE**********************************
 
+#************************************TRACKING MODULE**********************************
 def getTrackScore(track_list):
     
     split_list = []
@@ -163,8 +168,6 @@ def getTrackScore(track_list):
     print('Total Time Out: ',total_time_out)
     # [print(ele) for ele in split_list]
 
-
-
 #*************************************************************************************
 
 if __name__ == '__main__':
@@ -172,7 +175,7 @@ if __name__ == '__main__':
 
 
     # get path of log file
-    log_file_path = 'Logs/complete_comm_20230223_1607.log'
+    log_file_path = 'Logs/scenario_settings5_20230227_1057.log'
 
     # #open a file
     # f = open(log_file_path, 'w')
@@ -197,7 +200,7 @@ if __name__ == '__main__':
         for line in tf:
             track_list.append(line)
 
-# [print (i) for i in track_list]
-getTrackScore(track_list)
-# getCommScore(comm_list)
+[print (i) for i in comm_list]
+# getTrackScore(track_list)
+getCommScore(comm_list)
 # getSysmonScore(sysmon_list)

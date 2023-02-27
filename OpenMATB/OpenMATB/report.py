@@ -6,90 +6,76 @@ track_list = []
 comm_list = []
 
 
-#************************************COMMUNICATION MODULE************************************
+#************************************COMMUNICATION MODULE************************************ 
 def getCommScore(comm_list):
-
-    curr_target = ''
+    #first split on TARGET 
+    split_list = []
     response_times = []
     repsonse_accuracies = []
-    i = 0
+    i=0
     while i < len(comm_list):
-
-        # case when the prompt is for the subject
-        if comm_list[i][4]=='OWN' and comm_list[i][6]=='TARGET':
-            #get the channel
-            channel = comm_list[i][5]
-            #get the start time
-            start_time = datetime.strptime(comm_list[i][0], '%H:%M:%S.%f')
-            #get the current target
-            curr_target = comm_list[i][7].strip()
-
-            #traverse till the subject press enter
-            #check for enter press and compare with the last entered frequency
-
-            # flag to check whether 'ENTER' is pressed
-            flag = 0
-            j = i
-            while comm_list[j][5]!='RETURN':
-                j+=1
-                if(j==len(comm_list)-1) or (comm_list[j][4]=='OWN' 
-                                            and comm_list[j][6]=='TARGET'):
-                    flag = 1
-                    break
-
-            if(flag==1):
-                # case when 'ENTER' is not pressed or another prompt has started
-                # add 30 seconds to the response time
-                response_times.append(30)
-                # add 0 to the accuracy
-                repsonse_accuracies.append(0)
-                i=j
-                continue
-
-            #case when 'ENTER' is pressed
-            i=j
-            while not (comm_list[j][4]=='OWN' and comm_list[j][5]==channel):
-                j-=1
-
-            end_time = datetime.strptime(comm_list[j][0], '%H:%M:%S.%f')
-            response_time = end_time - start_time
-            # print(response_time.total_seconds())
-            response_times.append(response_time.total_seconds())
-            #get the accuracy
-            last_freq = float(comm_list[j][6].strip())
-            print(f'curent target:{curr_target} last frequency:{last_freq}')
-            error = abs(float(curr_target) - float(comm_list[j][6].strip()))/float(curr_target)
-            # print(error)
-            accuracy = 1 - error
-            repsonse_accuracies.append(accuracy) 
-
-
-        #case when the prompt is not for the subject
-        if comm_list[i][4]=='OTHER' and comm_list[i][6]=='TARGET':
-            # is the subject changes the frequency in this case
-            # then the accuracy is 0 and the response time peanlised is 30 seconds
-            #get the channel
-            channel = comm_list[i][5]
-
-            # check if there is any change in the frequency of this channel
+        if comm_list[i][6] == 'TARGET':
             j = i+1
-            for _ in range(i+1,len(comm_list)):
-                if(comm_list[j][5]==channel and comm_list[j][6]!='START_PROMPT\n' 
-                   and comm_list[j][6]!='TARGET\n'):
-                    # case when the frequency is changed
-                    print("HERE\n") 
-                    response_times.append(30)
-                    repsonse_accuracies.append(0)
-                    break
+            while j < len(comm_list) and comm_list[j][6] != 'TARGET':
                 j+=1
-        
+            split_list.append(comm_list[i:j])
+            i = j
+            continue
         i+=1
 
+    [print (event) for event in split_list]
+    #traverse through the split list and get the score
+    for event in split_list:
+        channel =''
+        #case when the prompt is for the subject
+        if event[0][4] == 'OWN':
+            channel = event[0][5]
+            curr_target = event[0][7].strip()
+            #when ENTER is not pressed
+            if event[-1][5] != 'RETURN':
+                #add 30 seconds to the response time
+                #add 0 to the accuracy
+                response_times.append(30)
+                repsonse_accuracies.append(0)
+                continue
 
+            #when ENTER is pressed
+            #get the last set frequency
+            last_freq = event[-2][6].strip()
+            if(curr_target == last_freq):
+                #correct frequency is set
+                repsonse_accuracies.append(1)
+                start_time = datetime.strptime(event[0][0], '%H:%M:%S.%f')
+                end_time = datetime.strptime(event[-2][0], '%H:%M:%S.%f')
+                response_time = end_time - start_time
+                response_times.append(response_time.total_seconds())
+                continue
 
-    print('Response Times: ',response_times)
-    print('Response Accuracies: ',repsonse_accuracies)
+            #correct frequency is not set
+            error = abs(float(curr_target) - float(last_freq))/float(curr_target)
+            accuracy = 1 - error
+            repsonse_accuracies.append(accuracy)
+            start_time = datetime.strptime(event[0][0], '%H:%M:%S.%f')
+            end_time = datetime.strptime(event[-2][0], '%H:%M:%S.%f')
+            response_time = end_time - start_time
+            response_times.append(response_time.total_seconds())
 
+        #case when the prompt is not for the subject
+        if event[0][4] == 'OTHER':
+            channel = event[0][5]
+            #check if the frequency is changed
+            if(len(event)>=5):
+                #frequency is changed
+                response_times.append(30)
+                repsonse_accuracies.append(0)
+            
+            else:
+                #frequency is not changed
+                response_times.append(0)
+                repsonse_accuracies.append(1)
+
+    print(f'response times:{response_times}')
+    print(f'response accuracies:{repsonse_accuracies}')
 #*************************************************************************************
 
 
@@ -200,7 +186,7 @@ if __name__ == '__main__':
         for line in tf:
             track_list.append(line)
 
-[print (i) for i in comm_list]
+# [print (i) for i in comm_list]
 # getTrackScore(track_list)
 getCommScore(comm_list)
 # getSysmonScore(sysmon_list)

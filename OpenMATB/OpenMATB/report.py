@@ -24,7 +24,6 @@ def getCommScore(comm_list):
             continue
         i+=1
 
-    [print (event) for event in split_list]
     #traverse through the split list and get the score
     for event in split_list:
         channel =''
@@ -163,7 +162,7 @@ if __name__ == '__main__':
 
     # get path of log file
     log_folder = Path('Logs')
-    log_file_path = log_folder/ 'scenario_settings5_20230227_1057.log'
+    log_file_path = log_folder/ 'scenario_settings5_20230306_1134.log'
 
     # #open a file
     # f = open(log_file_path, 'w')
@@ -189,6 +188,6 @@ if __name__ == '__main__':
             track_list.append(line)
 
 # [print (i) for i in comm_list]
-# getTrackScore(track_list)
+getTrackScore(track_list)
 getCommScore(comm_list)
-# getSysmonScore(sysmon_list)
+getSysmonScore(sysmon_list)

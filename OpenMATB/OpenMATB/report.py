@@ -1,4 +1,5 @@
 from datetime import datetime
+from pathlib import Path
 
 #lists for storing the activity of every event
 sysmon_list = []
@@ -6,9 +7,9 @@ track_list = []
 comm_list = []
 
 
-#************************************COMMUNICATION MODULE************************************ 
+#************************************COMMUNICATION MODULE************************************
 def getCommScore(comm_list):
-    #first split on TARGET 
+    #first split on TARGET
     split_list = []
     response_times = []
     repsonse_accuracies = []
@@ -68,7 +69,7 @@ def getCommScore(comm_list):
                 #frequency is changed
                 response_times.append(30)
                 repsonse_accuracies.append(0)
-            
+
             else:
                 #frequency is not changed
                 response_times.append(0)
@@ -93,13 +94,13 @@ def getSysmonScore(sysmon_list):
             if(sysmon_list[i+1][5]=='HIT\n'):
                 total_hits += 1
 
-            #check if the next event is a miss 
+            #check if the next event is a miss
             if(sysmon_list[i+1][5]=='MISS\n'):
                 false_alarm += 1
 
             #calculate response time
             time1 = datetime.strptime(sysmon_list[i][0], '%H:%M:%S.%f')
-            time2 = datetime.strptime(sysmon_list[i+1][0], '%H:%M:%S.%f')                
+            time2 = datetime.strptime(sysmon_list[i+1][0], '%H:%M:%S.%f')
             res = time2 - time1
             print(res.total_seconds())
             response_time += res.total_seconds()
@@ -115,7 +116,7 @@ def getSysmonScore(sysmon_list):
 
 #************************************TRACKING MODULE**********************************
 def getTrackScore(track_list):
-    
+
     split_list = []
     count = 0
     i=0
@@ -132,7 +133,7 @@ def getTrackScore(track_list):
             split_list.append(temp_list)
             i = j
         i+=1
-    
+
     for event in split_list:
         # print(type(event[0]))
         temp_mean =0.0
@@ -145,7 +146,7 @@ def getTrackScore(track_list):
             if(i==len(event)-1):
                 time_out = event_dict['total']['time_out_ms']
             temp_mean += event_dict['total']['deviation_mean']
-        
+
         mean_deviation_list.append(temp_mean/len(event))
         total_time_out.append(time_out-time_in)
         # print(time_out-time_in)
@@ -161,7 +162,8 @@ if __name__ == '__main__':
 
 
     # get path of log file
-    log_file_path = 'Logs/scenario_settings5_20230227_1057.log'
+    log_folder = Path('Logs')
+    log_file_path = log_folder/ 'scenario_settings5_20230227_1057.log'
 
     # #open a file
     # f = open(log_file_path, 'w')
@@ -173,10 +175,10 @@ if __name__ == '__main__':
 
             if(len(line)<=1):
                 continue
-            
+
             if line[2] == 'SYSMON':
                 sysmon_list.append(line)
-            
+
             if line[2] == 'COMMUN' and line[6]!='SELECTED\n':
                 comm_list.append(line)
 

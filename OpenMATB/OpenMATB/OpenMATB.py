@@ -894,8 +894,8 @@ if __name__ == '__main__':
     #     None, VERSIONTITLE + ' - ' + _('Select a scenario'), SCENARIOS_PATH, "(*.txt)")
 
     path = Path('./Scenarios')
-    scenario_FullPath = path / 'scenario_settings5.txt'
-    # scenario_FullPath = '/home/abhi/Desktop/MTP_HumanReliability/OpenMATB/OpenMATB/Scenarios/scenario_settings5.txt'
+    scenario_FullPath = path / 'scenario_demo.txt'
+
     if os.path.exists(scenario_FullPath):
         pygame.init()
         window = Main(scenario_FullPath)

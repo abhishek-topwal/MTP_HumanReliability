@@ -1,5 +1,7 @@
 from datetime import datetime
 from pathlib import Path
+import glob
+import os.path
 
 #lists for storing the activity of every event
 sysmon_list = []
@@ -104,7 +106,7 @@ def getSysmonScore(sysmon_list):
             print(res.total_seconds())
             response_time += res.total_seconds()
 
-    avg_response_time = response_time/total_failures;
+    avg_response_time = response_time/total_failures
     print('Total Failures: ',total_failures)
     print('Total Hits: ',total_hits)
     print('False Alarms: ',false_alarm)
@@ -159,13 +161,12 @@ def getTrackScore(track_list):
 if __name__ == '__main__':
     participant_info = []
 
+    #get the latest log file
+    folder_path = Path('Logs')
+    file_type = r'*.log'
 
-    # get path of log file
-    log_folder = Path('Logs')
-    log_file_path = log_folder/ 'scenario_settings5_20230306_1134.log'
-
-    # #open a file
-    # f = open(log_file_path, 'w')
+    files = glob.glob(str(folder_path/file_type))
+    log_file_path = max(files, key=os.path.getctime)
 
     # traverse thorugh the log file for sysmon and communication events
     with open(log_file_path ,'r') as f:
@@ -188,6 +189,13 @@ if __name__ == '__main__':
             track_list.append(line)
 
 # [print (i) for i in comm_list]
+print("****************************************")
+print("TRACK MODULE SCORES")
 getTrackScore(track_list)
+print("****************************************")
+print("COMM MODULE SCORES")
 getCommScore(comm_list)
+print("****************************************")
+print("SYSMON MODULE SCORES")
 getSysmonScore(sysmon_list)
+print("****************************************")

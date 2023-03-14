@@ -42,7 +42,7 @@ with open('data.txt', 'r') as f:
                 # print(timestamps[i], data[i])
                 pulse_data[timestamps[i]] = data[i]
 
-        if(j>0): break
+
 # print(eeg_data)
 
 # i = 0

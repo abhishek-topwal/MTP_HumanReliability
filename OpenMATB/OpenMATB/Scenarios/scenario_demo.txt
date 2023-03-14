@@ -1,0 +1,69 @@
+# Scenario template
+# Durations are expressed in milliseconds
+
+# 1. Set tasks parameters
+
+
+# 1.a. System monitoring parameters
+#Nothing
+
+# 1.b.i. Resources management parameters
+#Nothing
+
+# 1.b.ii. Pumps status parameters
+# Nothing
+
+# 1.c. Tracking parameters
+#Nothing
+
+# 1.d. Communications parameters
+
+0:00:00;communications;callsignregex;[A-Z][A-Z]\d\d
+0:00:00;communications;othercallsignnumber;5
+0:00:00;communications;voicegender;male
+0:00:00;communications;voiceidiom;english
+
+
+# 2. Start appropriate tasks
+
+
+0:00:00;track;start
+0:00:00;sysmon;start
+0:00:00;communications;start
+0:00:00;pumpstatus;start
+0:00:00;resman;start
+0:00:00;scheduling;start
+
+
+
+# 3. Set scenario events
+
+# 3.a. System monitoring events
+0:00:05;sysmon;scales-1-failure;down
+0:00:10;sysmon;lights-1-failure;True
+0:00:15;sysmon;scales-3-failure;up
+0:00:20;sysmon;scales-2-failure;down
+
+
+# 3.c. Tracking events
+0:00:00;track;automaticsolver;True
+0:00:25;track;automaticsolver;False
+0:00:39;track;automaticsolver;True
+
+
+# 3.d. Communications events
+# /!\ Be careful to let sufficient time during two prompts to avoid sound overlaping
+
+0:00:40;communications;radioprompt;other
+0:00:55;communications;radioprompt;own
+
+# 4. End tasks at 75 seconds
+
+0:01:20;track;stop
+0:01:20;sysmon;stop
+0:01:20;communications;stop
+0:01:20;pumpstatus;stop
+0:01:20;scheduling;stop
+0:01:20;resman;stop
+0:01:30;end
+

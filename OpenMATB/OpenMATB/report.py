@@ -217,6 +217,11 @@ if __name__ == '__main__':
     new_pulse_file = prefix_file_name+'_pulse_data.txt'
     shutil.copy(pulse_data_path,session_path/new_pulse_file)
 
+    #move the track data to the session folder
+    track_data_path = 'track_log.txt'
+    new_track_file = prefix_file_name+'_track_log.txt'
+    shutil.copy(track_data_path,session_path/new_track_file)
+
 
     # traverse thorugh the log file for sysmon and communication events
     # with open(log_file_path ,'r') as f:

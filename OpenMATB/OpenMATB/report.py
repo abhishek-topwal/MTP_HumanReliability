@@ -1,7 +1,8 @@
 from datetime import datetime
-from pathlib import Path
+import pathlib
 import glob
 import os.path
+import shutil
 
 #lists for storing the activity of every event
 sysmon_list = []
@@ -161,41 +162,90 @@ def getTrackScore(track_list):
 if __name__ == '__main__':
     participant_info = []
 
-    #get the latest log file
-    folder_path = Path('Logs')
-    file_type = r'*.log'
+    #get current date and time
+    now = datetime.now()
+    date_string = now.strftime("%d-%m-%Y_%H-%M")
 
+    #get user ID and session from the sync file
+    file = open('sync.txt','r')
+    for line in file:
+        line = line.strip().split('-')
+        participant_ID = line[0]
+        session = 'session_'+str(line[1])
+
+    #create folder for the participant in User_data
+    data_path = pathlib.Path('User_data')
+    participant_path = data_path/participant_ID
+    participant_path.mkdir(parents=True, exist_ok=True)
+
+    #create the folder for the current session
+    session_path = participant_path/session
+    session_path.mkdir(parents=True, exist_ok=True)
+
+    #save the latest log file, pulse_data.txt, Open BCI data in the session folder
+
+    #get the latest log file
+    folder_path = pathlib.Path('Logs')
+    file_type = r'*.log'
     files = glob.glob(str(folder_path/file_type))
     log_file_path = max(files, key=os.path.getctime)
 
+    #save the log file in the session folder
+    prefix_file_name = participant_ID+'_'+session+'_'+date_string
+    # prefix_file_name = participant_ID+'_'+session
+    new_log_file = prefix_file_name+'.log'
+    shutil.copy(log_file_path,session_path/new_log_file)
+
+    #get the latest OpenBCI folfer
+    openbci_folder_path  = pathlib.Path('C:/Users/Abhishek/Documents/OpenBCI_GUI/Recordings')
+    openbci_file_type = r'*'
+    openbci_files = glob.glob(str(openbci_folder_path/openbci_file_type))
+    openbci_current_folder = max(openbci_files, key=os.path.getctime)
+
+    #get the latest OpenBCI file
+    openbci_current_folder = pathlib.Path(openbci_current_folder)
+    openbci_file_type = r'*.txt'
+    openbci_files = glob.glob(str(openbci_current_folder/openbci_file_type))
+    openbci_file_path = max(openbci_files, key=os.path.getctime)
+
+    #save the OpenBCI file in the session folder
+    new_openbci_file = prefix_file_name+'.txt'
+    shutil.copy(openbci_file_path,session_path/new_openbci_file)
+
+    #move the pulse data to the session folder
+    pulse_data_path = 'pulse_data.txt'
+    new_pulse_file = prefix_file_name+'_pulse_data.txt'
+    shutil.copy(pulse_data_path,session_path/new_pulse_file)
+
+
     # traverse thorugh the log file for sysmon and communication events
-    with open(log_file_path ,'r') as f:
-        for line in f:
-            line = line.split('\t')
+    # with open(log_file_path ,'r') as f:
+    #     for line in f:
+    #         line = line.split('\t')
 
-            if(len(line)<=1):
-                continue
+    #         if(len(line)<=1):
+    #             continue
 
-            if line[2] == 'SYSMON':
-                sysmon_list.append(line)
+    #         if line[2] == 'SYSMON':
+    #             sysmon_list.append(line)
 
-            if line[2] == 'COMMUN' and line[6]!='SELECTED\n':
-                comm_list.append(line)
+    #         if line[2] == 'COMMUN' and line[6]!='SELECTED\n':
+    #             comm_list.append(line)
 
-    # traverse thorugh the log file for tracking events
-    track_log_file_path = 'track_log.txt'
-    with open(track_log_file_path ,'r') as tf:
-        for line in tf:
-            track_list.append(line)
+    # # traverse thorugh the log file for tracking events
+    # track_log_file_path = 'track_log.txt'
+    # with open(track_log_file_path ,'r') as tf:
+    #     for line in tf:
+    #         track_list.append(line)
 
 # [print (i) for i in comm_list]
-print("****************************************")
-print("TRACK MODULE SCORES")
-getTrackScore(track_list)
-print("****************************************")
-print("COMM MODULE SCORES")
-getCommScore(comm_list)
-print("****************************************")
-print("SYSMON MODULE SCORES")
-getSysmonScore(sysmon_list)
-print("****************************************")
+# print("****************************************")
+# print("TRACK MODULE SCORES")
+# getTrackScore(track_list)
+# print("****************************************")
+# print("COMM MODULE SCORES")
+# getCommScore(comm_list)
+# print("****************************************")
+# print("SYSMON MODULE SCORES")
+# getSysmonScore(sysmon_list)
+# print("****************************************")

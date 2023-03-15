@@ -1,6 +1,10 @@
 ﻿from PySide2 import QtCore, QtWidgets
 from Helpers.Translator import translate as _
 
+
+file = open("sync.txt", "r+")
+file.seek(0)
+file.truncate()
 class Task(QtWidgets.QWidget):
 
     def __init__(self, parent):
@@ -44,6 +48,10 @@ class Task(QtWidgets.QWidget):
 
     def onClose(self):
         # self.hide()
+
+        #before closing write the participant id to a sync file
+        file.write('P_ID:'+str(self.participant.text()))
+        file.close()
         self.participant.hide()
         self.participantlabel.hide()
         self.participantbtn.hide()

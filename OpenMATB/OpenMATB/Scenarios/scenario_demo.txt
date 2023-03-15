@@ -38,6 +38,10 @@
 
 # 3. Set scenario events
 
+# Retrieve participant information :
+
+0:00:00;participantinfo;start
+
 # 3.a. System monitoring events
 0:00:05;sysmon;scales-1-failure;down
 0:00:10;sysmon;lights-1-failure;True

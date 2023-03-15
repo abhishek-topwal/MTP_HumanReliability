@@ -259,6 +259,7 @@ class Main(QtWidgets.QMainWindow):
 
 
     def place_plugins_on_screen(self):
+
         """Compute size and position of each plugin, in a 2 x 3 canvas,
         as a function of the taskplacement variable of each plugin"""
 
@@ -890,11 +891,11 @@ if __name__ == '__main__':
 
     loadConfig()
 
-    # scenario_FullPath, none = QtWidgets.QFileDialog.getOpenFileName(
-    #     None, VERSIONTITLE + ' - ' + _('Select a scenario'), SCENARIOS_PATH, "(*.txt)")
+    scenario_FullPath, none = QtWidgets.QFileDialog.getOpenFileName(
+        None, VERSIONTITLE + ' - ' + _('Select a scenario'), SCENARIOS_PATH, "(*.txt)")
 
-    path = Path('./Scenarios')
-    scenario_FullPath = path / 'scenario_demo.txt'
+    # path = Path('./Scenarios')
+    # scenario_FullPath = path / 'scenario_demo.txt'
 
     if os.path.exists(scenario_FullPath):
         pygame.init()

@@ -50,8 +50,9 @@ class Task(QtWidgets.QWidget):
         # self.hide()
 
         #before closing write the participant id to a sync file
-        file.write('P_ID:'+str(self.participant.text()))
-        file.close()
+        if(self.participant.text().lower() != 'demo'):
+            file.write('P_ID:'+str(self.participant.text()))
+            file.close()
         self.participant.hide()
         self.participantlabel.hide()
         self.participantbtn.hide()

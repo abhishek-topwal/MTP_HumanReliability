@@ -1,4 +1,5 @@
 from PySide2 import QtWidgets, QtCore, QtGui
+from datetime import datetime
 from Helpers import WTrack
 from Helpers.Translator import translate as _
 import pygame
@@ -62,7 +63,7 @@ class Task(QtWidgets.QWidget):
         # Add the WTrack object to the layout
         layout.addWidget(self.widget)
         self.setLayout(layout)
-        
+
         ############################ FOR JOYSTICK ############################################
         # pygame.joystick.init()
 
@@ -143,22 +144,25 @@ class Task(QtWidgets.QWidget):
             if self.widget.isCursorInTarget():
                 perf_val['time_in_ms'] += self.parameters['taskupdatetime']
             else:
+                # write the current time in ms to the file
+                dt_string = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
+                file.write("OUT: "+dt_string+"\n")
                 perf_val['time_out_ms'] += self.parameters['taskupdatetime']
 
             current_deviation = self.widget.returnAbsoluteDeviation()
             perf_val['points_number'] += 1
             perf_val['deviation_mean'] = perf_val['deviation_mean'] * ((perf_val['points_number']-1) / float(perf_val['points_number'])) + current_deviation * (float(1) / perf_val['points_number'])
-        
+
         global dash_flag
         if not self.parameters['automaticsolver']:
             file.write(str(self.performance)+'\n')
         else:
             dash_flag = 1
-        
+
         if dash_flag==1:
             dash_flag = 0
             file.write('AUTO\n')
-            
+
 
     def keyEvent(self,key_pressed,event=None):
         numpad_mod = int(event.modifiers()) & QtCore.Qt.KeypadModifier
@@ -174,7 +178,7 @@ class Task(QtWidgets.QWidget):
         if key_pressed == QtCore.Qt.Key_4 and numpad_mod:
             #LEFT movement
             self.parameters['coordinates'] = (-0.1,0)
-    
+
 
     def joystick_input(self):
         if self.my_joystick:

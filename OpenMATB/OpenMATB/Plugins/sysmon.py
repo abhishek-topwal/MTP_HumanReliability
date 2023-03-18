@@ -16,7 +16,7 @@ class Task(QtWidgets.QWidget):
             'taskplacement': 'topleft',
             'taskupdatetime': 200,
             # 'alerttimeout': 5000,
-            'alerttimeout': 3000, #for high cognitive workload
+            'alerttimeout': 2000, #for high cognitive workload
             'automaticsolver': False,
             'automaticsolverdelay': 1 * 1000,
             'displayautomationstate': False,
@@ -194,7 +194,7 @@ class Task(QtWidgets.QWidget):
             if 'ui' in scaleValues:
                 scaleValues['ui'].style = self.parameters['scalestyle']
                 scaleValues['ui'].position = scaleValues['position']
-                # scaleValues['ui'].arrow.setText(u'\u1F53B') 
+                # scaleValues['ui'].arrow.setText(u'\u1F53B')
                 #\u1F53B unicode character 'Red right pointing triangle'
 
         for thisLight, lightValues in self.parameters['lights'].items():
@@ -326,9 +326,9 @@ class Task(QtWidgets.QWidget):
         # If current position does not match the current scale state, move the
         # cursor in the propoer zone
         if actualPosition not in self.zones[whatZone]:
-            actualPosition = random.sample(self.zones[whatZone], 1)[0] 
-            
-            
+            actualPosition = random.sample(self.zones[whatZone], 1)[0]
+
+
 
         # If it does match...
         else:
@@ -348,7 +348,7 @@ class Task(QtWidgets.QWidget):
 
         if(actualPosition<=3 or actualPosition>=7):
             # print(str(whatScale)+" "+str(actualPosition))
-            bg = '#c41a1a' 
+            bg = '#c41a1a'
         else:
             bg = '#000000'
         self.parameters['scales'][whatScale]['ui'].changeBoxColor(bg,whatScale)

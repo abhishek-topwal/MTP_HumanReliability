@@ -11,10 +11,13 @@ import psutil
 from Helpers import Logger, Translator
 from Helpers.Translator import translate as _
 from pathlib import Path
+import pylsl
+import threading
 
 # Force import for cxfreeze:
 from Helpers import (QTExtensions, WLight, WPump, WCom,
                      WScale, WScheduler, WTank, WTrack, xeger)
+
 
 
 VERSION = "1.1.000"
@@ -885,11 +888,34 @@ def getConfigValue(key, defaultvalue):
     else:
         return defaultvalue
 
+def pulse_stream():
+    # first resolve an EEG stream on the lab network
+    print("looking for an EEG stream...")
+    # use name of the stream to resolve it
+    stream_pulse = pylsl.resolve_stream('name', 'obci_eeg1')
+
+    # create a new inlet to read from the stream
+    inlet_pulse = pylsl.StreamInlet(stream_pulse[0], processing_flags=pylsl.proc_ALL)
+
+    while True:
+        # get a new sample (you can also omit the timestamp part if you're not
+        # interested in it)
+        chunk_pulse, timestamps_pulse = inlet_pulse.pull_sample()
+        f.write("Pulse ||"+str(timestamps_pulse) + '||' + str(chunk_pulse)+'\n')
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
 
     loadConfig()
+
+    f = open('pulse_data.txt', 'w')
+    f.seek(0)
+    f.truncate()
+
+    #use a thread to read the pulse data
+    t = threading.Thread(target=pulse_stream)
+    t.start()
 
     scenario_FullPath, none = QtWidgets.QFileDialog.getOpenFileName(
         None, VERSIONTITLE + ' - ' + _('Select a scenario'), SCENARIOS_PATH, "(*.txt)")

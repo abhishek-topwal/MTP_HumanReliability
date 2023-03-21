@@ -170,7 +170,7 @@ if __name__ == '__main__':
     file = open('sync.txt','r')
     for line in file:
         line = line.strip().split('-')
-        participant_ID = line[0]
+        participant_ID = line[0].split(':')[1]
         session = 'session_'+str(line[1])
 
     #create folder for the participant in User_data

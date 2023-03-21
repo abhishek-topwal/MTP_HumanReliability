@@ -906,19 +906,23 @@ def pulse_stream():
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-
     loadConfig()
 
-    # f = open('pulse_data.txt', 'w')
-    # f.seek(0)
-    # f.truncate()
+    if(len(sys.argv)>1):
+        path = Path('./Scenarios')
+        scenario_FullPath = path / 'scenario_demo.txt'
+    else:
+        # to write pulse data to a file
+        # f = open('pulse_data.txt', 'w')
+        # f.seek(0)
+        # f.truncate()
 
-    # #use a thread to read the pulse data
-    # t = threading.Thread(target=pulse_stream)
-    # t.start()
+        # # #use a thread to read the pulse data
+        # t = threading.Thread(target=pulse_stream)
+        # t.start()
 
-    scenario_FullPath, none = QtWidgets.QFileDialog.getOpenFileName(
-        None, VERSIONTITLE + ' - ' + _('Select a scenario'), SCENARIOS_PATH, "(*.txt)")
+        scenario_FullPath, none = QtWidgets.QFileDialog.getOpenFileName(
+            None, VERSIONTITLE + ' - ' + _('Select a scenario'), SCENARIOS_PATH, "(*.txt)")
 
     # path = Path('./Scenarios')
     # scenario_FullPath = path / 'scenario_demo.txt'
@@ -927,11 +931,9 @@ if __name__ == '__main__':
         pygame.init()
         window = Main(scenario_FullPath)
         window.setWindowTitle(VERSIONTITLE)
-        # window.showFullScreen()
+        window.showFullScreen()
         #open window in maximized mode
-        # window.showMaximized()
-        window.showMinimized ()
-        # window.
+        # window.showMinimized ()
         app.installEventFilter(window)
         window.runExperiment()
 

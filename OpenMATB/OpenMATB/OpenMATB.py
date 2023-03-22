@@ -913,13 +913,13 @@ if __name__ == '__main__':
         scenario_FullPath = path / 'scenario_demo.txt'
     else:
         # to write pulse data to a file
-        # f = open('pulse_data.txt', 'w')
-        # f.seek(0)
-        # f.truncate()
+        f = open('pulse_data.txt', 'w')
+        f.seek(0)
+        f.truncate()
 
-        # # #use a thread to read the pulse data
-        # t = threading.Thread(target=pulse_stream)
-        # t.start()
+        #use a thread to read the pulse data
+        t = threading.Thread(target=pulse_stream)
+        t.start()
 
         scenario_FullPath, none = QtWidgets.QFileDialog.getOpenFileName(
             None, VERSIONTITLE + ' - ' + _('Select a scenario'), SCENARIOS_PATH, "(*.txt)")

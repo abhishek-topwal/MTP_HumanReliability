@@ -92,5 +92,8 @@
 0:02:55;track;stop
 0:02:55;sysmon;stop
 0:02:55;communications;stop
+0:02:55;pumpstatus;stop
+0:02:55;scheduling;stop
+0:02:55;resman;stop
 0:03:00;end
 
